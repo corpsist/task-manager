@@ -5,13 +5,12 @@ import java.time.Instant;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Schema(description = "Task response object")
-public class TaskResponse {
+public class TaskResponseDTO {
     private Long id;
     private String title;
     private String description;
@@ -19,5 +18,3 @@ public class TaskResponse {
     private Instant createdAt;
     private Instant updatedAt;
 }
-
-

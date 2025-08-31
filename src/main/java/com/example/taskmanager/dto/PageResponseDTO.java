@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Custom pagination response wrapper")
-public class PageResponse<T> {
+public class PageResponseDTO<T> {
     private List<T> content;
     private int pageNumber;
     private int pageSize;
@@ -20,15 +20,14 @@ public class PageResponse<T> {
     private int totalPages;
     private boolean last;
 
-
-    public static <T> PageResponse<T> of(Page<T> page) {
-        return PageResponse.<T>builder()
-            .content(page.getContent())
-            .pageNumber(page.getNumber())
-            .pageSize(page.getSize())
-            .totalElements(page.getTotalElements())
-            .totalPages(page.getTotalPages())
-            .last(page.isLast())
-            .build();
+    public static <T> PageResponseDTO<T> of(Page<T> page) {
+        return PageResponseDTO.<T>builder()
+                .content(page.getContent())
+                .pageNumber(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .last(page.isLast())
+                .build();
     }
 }
