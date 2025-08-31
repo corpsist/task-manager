@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.example.taskmanager.dto.FieldErrorItem;
+import com.example.taskmanager.dto.FieldErrorItemDTO;
 
 @Data // generates getters,setters, toString, equals, hashCode
 @AllArgsConstructor
@@ -18,5 +18,5 @@ public class ErrorResponse {
     private String error;
     private String message;
     private String path;
-    private List<FieldErrorItem> details;
+    private List<FieldErrorItemDTO> details;
 }

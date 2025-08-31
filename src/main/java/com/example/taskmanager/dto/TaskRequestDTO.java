@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Task request object")
-public class TaskRequest {
+public class TaskRequestDTO {
     @NotBlank(message = "Title is required")
     private String title;
 
@@ -19,5 +19,3 @@ public class TaskRequest {
 
     private Boolean completed;
 }
-
-

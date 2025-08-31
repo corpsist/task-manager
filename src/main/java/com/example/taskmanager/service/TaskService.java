@@ -9,27 +9,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.taskmanager.dto.TaskRequest;
+import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.exception.TaskNotFoundException;
 
 import java.util.List;
 //import java.util.Map;
 //import java.util.Optional;
 
-@Service //marks this as the Service bean for Spring to manage
+@Service // marks this as the Service bean for Spring to manage
 @RequiredArgsConstructor
 public class TaskService {
-    
+
     @Autowired
     private TaskRepository taskRepository;
 
     // 1) Create a new task
-    public Task createTask(TaskRequest taskRequest) {
+    public Task createTask(TaskRequestDTO taskRequest) {
         Task task = Task.builder()
-            .title(taskRequest.getTitle())
-            .description(taskRequest.getDescription())
-            .completed(taskRequest.getCompleted() != null ? taskRequest.getCompleted() : false)
-            .build();
+                .title(taskRequest.getTitle())
+                .description(taskRequest.getDescription())
+                .completed(taskRequest.getCompleted() != null ? taskRequest.getCompleted() : false)
+                .build();
 
         return taskRepository.save(task);
     }
@@ -45,9 +45,9 @@ public class TaskService {
     }
 
     // 4) Update task
-    public Task updateTask(Long id, TaskRequest taskRequest) {
+    public Task updateTask(Long id, TaskRequestDTO taskRequest) {
         Task task = taskRepository.findById(id)
-            .orElseThrow(() -> new TaskNotFoundException(id));
+                .orElseThrow(() -> new TaskNotFoundException(id));
 
         task.setTitle(taskRequest.getTitle());
         task.setDescription(taskRequest.getDescription());
@@ -59,38 +59,38 @@ public class TaskService {
     // 5) Delete Task
     public void deleteTask(Long id) {
         Task task = taskRepository.findById(id)
-            .orElseThrow(() -> new TaskNotFoundException(id));
+                .orElseThrow(() -> new TaskNotFoundException(id));
         taskRepository.delete(task);
     }
 
-    //6) Patch Update Task
-    public Task patchTask(Long id, TaskRequest taskRequest) {
+    // 6) Patch Update Task
+    public Task patchTask(Long id, TaskRequestDTO taskRequest) {
         Task task = taskRepository.findById(id)
-            .orElseThrow(() -> new TaskNotFoundException(id));
+                .orElseThrow(() -> new TaskNotFoundException(id));
 
-        if(taskRequest.getTitle() != null && !taskRequest.getTitle().isBlank()) {
+        if (taskRequest.getTitle() != null && !taskRequest.getTitle().isBlank()) {
             task.setTitle(taskRequest.getTitle());
         }
 
-        if(taskRequest.getDescription() != null ) {
+        if (taskRequest.getDescription() != null) {
             task.setDescription(taskRequest.getDescription());
         }
 
-        if(taskRequest.getCompleted() != null) {
+        if (taskRequest.getCompleted() != null) {
             task.setCompleted(taskRequest.getCompleted());
         }
 
         return taskRepository.save(task);
     }
 
-   //GET with Pagination + Filtering
-   public Page<Task> getTasks(Boolean completed, String keyword, Pageable pageable) {
-    if(completed!= null) {
-        return taskRepository.findByCompleted(completed, pageable);
-    } else if (keyword != null &&  !keyword.isBlank()) {
-        return taskRepository.findByTitleContainingIgnoreCase(keyword, pageable);
-    } else {
-        return taskRepository.findAll(pageable);
+    // GET with Pagination + Filtering
+    public Page<Task> getTasks(Boolean completed, String keyword, Pageable pageable) {
+        if (completed != null) {
+            return taskRepository.findByCompleted(completed, pageable);
+        } else if (keyword != null && !keyword.isBlank()) {
+            return taskRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+        } else {
+            return taskRepository.findAll(pageable);
+        }
     }
-   }
 }
